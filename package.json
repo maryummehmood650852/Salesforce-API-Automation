@@ -1,0 +1,21 @@
+{
+  "name": "playwright--practice",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/jira-client": "^7.1.9",
+    "@types/node": "^26.6.3",
+    "playwright-zephyr": "^1.2.0",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "jira-client": "^8.2.2"
+  }
+}
