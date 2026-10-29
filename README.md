@@ -52,7 +52,7 @@ The project was developed to practice API testing concepts and understand how Sa
 - Validating API responses and expected application behavior.
 
 ## Repository
-GitHub: https://github.com/maryummehmood650852/Salesforce-API-Automation
+GitHub: https://github.com/maryummehmood650852/Salesforce-API-Automation.git
 
 ## Conclusion
 This project demonstrates my understanding of API testing, authentication, CRUD operations, response validation, and API test automation using Postman, Playwright, and TypeScript.
