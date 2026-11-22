@@ -1,4 +1,5 @@
-import { test } from '@playwright/test';
+
+import { test, expect } from '@playwright/test';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -16,13 +17,15 @@ test('Salesforce API Authentication', async ({ request }) => {
     }
   );
 
-   console.log('Status:', response.status());
+  console.log('Authentication Status:', response.status());
 
   expect(response.ok()).toBeTruthy();
 
   const data = await response.json();
 
+  expect(data.access_token).toBeTruthy();
+
   console.log('Access Token:', data.access_token);
 
-  expect(data.access_token).toBeTruthy();
+  console.log('Access Token Generated Successfully');
 });
