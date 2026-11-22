@@ -5,6 +5,7 @@ dotenv.config();
 
 test('Create Salesforce Account', async ({ request }) => {
 
+ 
   const authResponse = await request.post(
     `${process.env.SALESFORCE_INSTANCE_URL}/services/oauth2/token`,
     {
@@ -18,29 +19,27 @@ test('Create Salesforce Account', async ({ request }) => {
 
   expect(authResponse.ok()).toBeTruthy();
 
-  const authData = await authResponse.json();
+  const { access_token } = await authResponse.json();
 
-  const accessToken = authData.access_token;
-
+  
   const response = await request.post(
     `${process.env.SALESFORCE_INSTANCE_URL}/services/data/v64.0/sobjects/Account`,
     {
       headers: {
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${access_token}`
       },
       data: {
         Name: 'MARYUM MEHMOOD'
-        
       }
     }
   );
 
-  console.log('Status:', response.status());
-
   const data = await response.json();
 
-  console.log(data);
+  console.log('Status:', response.status());
+  console.log('Response:', data);
 
+ 
   expect(response.status()).toBe(201);
   expect(data.success).toBeTruthy();
   expect(data.id).toBeTruthy();
