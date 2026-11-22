@@ -1,3 +1,5 @@
+
+
 import { test, expect } from '@playwright/test';
 import dotenv from 'dotenv';
 
@@ -18,24 +20,21 @@ test('Salesforce Authenticated API', async ({ request }) => {
 
   expect(authResponse.ok()).toBeTruthy();
 
-  const authData = await authResponse.json();
-
-  const accessToken = authData.access_token;
+  const { access_token } = await authResponse.json();
 
   const response = await request.get(
     `${process.env.SALESFORCE_INSTANCE_URL}/services/data/v64.0/query/?q=SELECT+Id,Name+FROM+Account`,
     {
       headers: {
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${access_token}`
       }
     }
   );
-
-  console.log('Status:', response.status());
 
   expect(response.ok()).toBeTruthy();
 
   const data = await response.json();
 
-  console.log(data);
+  console.log('Status:', response.status());
+  console.log('Account Records:', data);
 });
