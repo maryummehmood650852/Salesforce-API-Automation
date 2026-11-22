@@ -1,3 +1,4 @@
+
 name: Playwright Tests
 
 on:
@@ -15,6 +16,7 @@ jobs:
       SALESFORCE_CLIENT_ID: ${{ secrets.SALESFORCE_CLIENT_ID }}
       SALESFORCE_CLIENT_SECRET: ${{ secrets.SALESFORCE_CLIENT_SECRET }}
       SALESFORCE_INSTANCE_URL: ${{ secrets.SALESFORCE_INSTANCE_URL }}
+      SALESFORCE_ACCOUNT_ID: ${{ secrets.SALESFORCE_ACCOUNT_ID }}
 
     steps:
       - name: Checkout
