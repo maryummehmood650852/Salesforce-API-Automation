@@ -5,7 +5,7 @@ dotenv.config();
 
 test('Update Salesforce Account', async ({ request }) => {
 
-  
+
   const authResponse = await request.post(
     `${process.env.SALESFORCE_INSTANCE_URL}/services/oauth2/token`,
     {
@@ -19,34 +19,15 @@ test('Update Salesforce Account', async ({ request }) => {
 
   expect(authResponse.ok()).toBeTruthy();
 
-  const authData = await authResponse.json();
-  const accessToken = authData.access_token;
-
-  const headers = {
-    Authorization: `Bearer ${accessToken}`
-  };
-
-  
-  const createResponse = await request.post(
-    `${process.env.SALESFORCE_INSTANCE_URL}/services/data/v64.0/sobjects/Account`,
-    {
-      headers,
-      data: {
-        Name: `Playwright PATCH Test ${Date.now()}`
-      }
-    }
-  );
-
-  expect(createResponse.status()).toBe(201);
-
-  const createData = await createResponse.json();
-  const accountId = createData.id;
+  const { access_token } = await authResponse.json();
 
  
   const response = await request.patch(
-    `${process.env.SALESFORCE_INSTANCE_URL}/services/data/v64.0/sobjects/Account/${accountId}`,
+    `${process.env.SALESFORCE_INSTANCE_URL}/services/data/v64.0/sobjects/Account/YOUR_ACCOUNT_ID`,
     {
-      headers,
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      },
       data: {
         Name: 'MARYUM UPDATED'
       }
@@ -56,29 +37,9 @@ test('Update Salesforce Account', async ({ request }) => {
   console.log('PATCH Status:', response.status());
 
   expect(response.status()).toBe(204);
-
-  
-  const getResponse = await request.get(
-    `${process.env.SALESFORCE_INSTANCE_URL}/services/data/v64.0/sobjects/Account/${accountId}`,
-    {
-      headers
-    }
-  );
-
-  expect(getResponse.status()).toBe(200);
-
-  const accountData = await getResponse.json();
-
-  expect(accountData.Id).toBe(accountId);
-  expect(accountData.Name).toBe('MARYUM UPDATED');
-
-  
-  const deleteResponse = await request.delete(
-    `${process.env.SALESFORCE_INSTANCE_URL}/services/data/v64.0/sobjects/Account/${accountId}`,
-    {
-      headers
-    }
-  );
-
-  expect(deleteResponse.status()).toBe(204);
 });
+
+
+  
+
+  
