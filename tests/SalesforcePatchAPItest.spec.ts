@@ -9,7 +9,7 @@ test('Update Salesforce Account', async ({ request }) => {
   const authResponse = await request.post(
     `${process.env.SALESFORCE_INSTANCE_URL}/services/oauth2/token`,
     {
-      form: {
+      form: { 
         grant_type: 'client_credentials',
         client_id: process.env.SALESFORCE_CLIENT_ID!,
         client_secret: process.env.SALESFORCE_CLIENT_SECRET!
