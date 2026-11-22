@@ -5,7 +5,7 @@ dotenv.config();
 
 test('Delete Salesforce Account', async ({ request }) => {
 
-  
+
   const authResponse = await request.post(
     `${process.env.SALESFORCE_INSTANCE_URL}/services/oauth2/token`,
     {
@@ -19,14 +19,13 @@ test('Delete Salesforce Account', async ({ request }) => {
 
   expect(authResponse.ok()).toBeTruthy();
 
-  const authData = await authResponse.json();
-  const accessToken = authData.access_token;
+  const { access_token } = await authResponse.json();
 
   const headers = {
-    Authorization: `Bearer ${accessToken}`
+    Authorization: `Bearer ${access_token}`
   };
 
-  
+
   const createResponse = await request.post(
     `${process.env.SALESFORCE_INSTANCE_URL}/services/data/v64.0/sobjects/Account`,
     {
@@ -39,28 +38,27 @@ test('Delete Salesforce Account', async ({ request }) => {
 
   expect(createResponse.status()).toBe(201);
 
-  const createData = await createResponse.json();
-  const accountId = createData.id;
+  const { id: accountId } = await createResponse.json();
 
+  expect(accountId).toBeTruthy();
 
+  
   const response = await request.delete(
     `${process.env.SALESFORCE_INSTANCE_URL}/services/data/v64.0/sobjects/Account/${accountId}`,
-    {
-      headers
-    }
+    { headers }
   );
 
   console.log('DELETE Status:', response.status());
 
   expect(response.status()).toBe(204);
 
-
+  
   const getResponse = await request.get(
     `${process.env.SALESFORCE_INSTANCE_URL}/services/data/v64.0/sobjects/Account/${accountId}`,
-    {
-      headers
-    }
+    { headers }
   );
 
   expect(getResponse.status()).toBe(404);
+
 });
+
