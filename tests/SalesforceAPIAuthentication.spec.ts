@@ -16,6 +16,13 @@ test('Salesforce API Authentication', async ({ request }) => {
     }
   );
 
-  console.log('Status:', response.status());
-  console.log('Response:', await response.text());
+   console.log('Status:', response.status());
+
+  expect(response.ok()).toBeTruthy();
+
+  const data = await response.json();
+
+  console.log('Access Token:', data.access_token);
+
+  expect(data.access_token).toBeTruthy();
 });
